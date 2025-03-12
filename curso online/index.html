@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plataforma de Cursos Online</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f7fc;
+            color: #333;
+            line-height: 1.6;
+            transition: all 0.3s ease;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+
+        h1, h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-family: 'Arial', sans-serif;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        .popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .popup-content {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            width: 400px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .product {
+            background-color: white;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .product:hover {
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .product img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+
+        .product h2 {
+            margin-top: 10px;
+        }
+
+        .confirmation {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .confirmation p {
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 14px;
+            color: #888;
+        }
+
+        nav {
+            background-color: #333;
+            padding: 10px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        nav ul {
+            list-style-type: none;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        nav ul li {
+            margin: 0;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 16px;
+            transition: color 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: #28a745;
+        }
+
+        .section {
+            display: none;
+            transition: all 0.3s ease;
+        }
+
+        .active {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+
+            .product {
+                padding: 15px;
+            }
+
+            nav ul {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            nav ul li a {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav>
+            <ul>
+                <li><a href="javascript:void(0)" onclick="showHome()">Home</a></li>
+                <li><a href="javascript:void(0)" onclick="showProducts()">Produtos</a></li>
+                <li id="checkout-link" style="display: none;"><a href="javascript:void(0)" onclick="showCheckout()">Checkout</a></li>
+                <li id="payment-link" style="display: none;"><a href="javascript:void(0)" onclick="showPayment()">Pagamento</a></li>
+                <li id="confirmation-link" style="display: none;"><a href="javascript:void(0)" onclick="showConfirmation()">Confirmação de Compra</a></li>
+            </ul>
+        </nav>
+
+        <div id="home" class="section active">
+            <h1>Bem-vindo à Plataforma de Cursos Online</h1>
+            <p>Você está vendo conteúdo limitado. Faça login para acessar mais cursos!</p>
+            <button onclick="openLoginPopup()">Login</button>
+        </div>
+
+        <div id="login-popup" class="popup">
+            <div class="popup-content">
+                <h2>Login</h2>
+                <input type="email" id="login-email" class="form-input" placeholder="Email" required>
+                <input type="password" id="login-password" class="form-input" placeholder="Senha" required>
+                <button onclick="login()">Entrar</button>
+                <button onclick="closeLoginPopup()">Fechar</button>
+            </div>
+        </div>
+
+        <div id="products" class="section">
+            <h1>Escolha um Curso</h1>
+            <div class="product">
+                <img src="https://via.placeholder.com/500" alt="Curso Desenvolvimento Web">
+                <h2>Curso de Desenvolvimento Web</h2>
+                <p>Preço: R$ 200,00</p>
+                <button onclick="goToCheckout()">Comprar</button>
+            </div>
+            <div class="product">
+                <img src="https://via.placeholder.com/500" alt="Curso de Marketing Digital">
+                <h2>Curso de Marketing Digital</h2>
+                <p>Preço: R$ 150,00</p>
+                <button onclick="goToCheckout()">Comprar</button>
+            </div>
+        </div>
+
+        <div id="checkout" class="section">
+            <h1>Confirme o Curso</h1>
+            <p>Curso: Desenvolvimento Web</p>
+            <form id="checkout-form">
+                <input type="text" class="form-input" placeholder="Nome Completo" required>
+                <input type="text" class="form-input" placeholder="CPF" required>
+                <input type="text" class="form-input" placeholder="Forma de Pagamento" required>
+                <button type="submit">Continuar</button>
+            </form>
+        </div>
+
+        <div id="payment" class="section">
+            <h1>Escolha a Forma de Pagamento</h1>
+            <button onclick="confirmPayment('Cartão de Crédito')">Cartão de Crédito</button>
+            <button onclick="confirmPayment('Pix')">Pix</button>
+            <button onclick="confirmPayment('Boleto')">Boleto</button>
+        </div>
+
+        <div id="confirmation" class="section">
+            <div class="confirmation">
+                <h2>Confirmação de Compra</h2>
+                <p>Curso: Desenvolvimento Web</p>
+                <p>Forma de Pagamento: <span id="payment-method"></span></p>
+                <button onclick="finishPurchase()">Confirmar Compra</button>
+                <button onclick="cancelPurchase()">Cancelar Compra</button>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Plataforma de Cursos Online - Todos os direitos reservados</p>
+        </div>
+    </div>
+
+    <script>
+        function openLoginPopup() {
+            document.getElementById('login-popup').style.display = 'flex';
+        }
+
+        function closeLoginPopup() {
+            document.getElementById('login-popup').style.display = 'none';
+        }
+
+        function login() {
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            if (email && password) {
+                alert('Login realizado com sucesso!');
+                showProducts();
+                closeLoginPopup();
+                document.getElementById('checkout-link').style.display = 'inline-block';
+            }
+        }
+
+        function showHome() {
+            transitionToSection('home');
+        }
+
+        function showProducts() {
+            transitionToSection('products');
+        }
+
+        function showCheckout() {
+            transitionToSection('checkout');
+            document.getElementById('payment-link').style.display = 'inline-block';
+        }
+
+        function showPayment() {
+            transitionToSection('payment');
+            document.getElementById('confirmation-link').style.display = 'inline-block';
+        }
+
+        function showConfirmation() {
+            transitionToSection('confirmation');
+        }
+
+        function transitionToSection(sectionId) {
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => section.classList.remove('active'));
+            document.getElementById(sectionId).classList.add('active');
+        }
+
+        function goToCheckout() {
+            showCheckout();
+        }
+
+        function confirmPayment(paymentMethod) {
+            document.getElementById('payment-method').innerText = paymentMethod;
+            showConfirmation();
+        }
+
+        function finishPurchase() {
+            alert('Compra realizada com sucesso!');
+            showHome();
+            resetMenu();
+        }
+
+        function cancelPurchase() {
+            alert('Compra cancelada!');
+            showProducts();
+        }
+
+        function resetMenu() {
+            document.getElementById('checkout-link').style.display = 'none';
+            document.getElementById('payment-link').style.display = 'none';
+            document.getElementById('confirmation-link').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
+
+
+
